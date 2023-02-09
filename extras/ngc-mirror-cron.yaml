@@ -1,0 +1,41 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  labels:
+    app: ngc-mirror
+  name: ngc-mirror
+  namespace: ngc-mirror
+spec:
+  schedule: "0 0 * * 0"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - command:
+            - /bin/sh
+            - -c
+            - /ngc-update/ngc-update.sh
+            image: deepops/replicator
+            imagePullPolicy: IfNotPresent
+            name: ngc-mirror
+            volumeMounts:
+            - mountPath: /ngc-update
+              name: ngc-mirror-config
+            - mountPath: /var/run/docker.sock
+              name: docker-socket
+            - mountPath: /output
+              name: ngc-mirror-storage
+          volumes:
+          - configMap:
+              defaultMode: 511
+              name: ngc-mirror-config
+            name: ngc-mirror-config
+          - hostPath:
+              path: /var/run/docker.sock
+              type: ""
+            name: docker-socket
+          - name: ngc-mirror-storage
+            persistentVolumeClaim:
+              claimName: ngc-mirror-pvc
+          restartPolicy: Never

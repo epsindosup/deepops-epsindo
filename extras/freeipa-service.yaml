@@ -1,0 +1,53 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: freeipa-container
+  namespace: freeipa-container
+spec:
+  ports:
+  - name: dns-tcp
+    port: 53
+    protocol: TCP
+    targetPort: 9001
+  - name: dns-udp
+    port: 53
+    protocol: UDP
+    targetPort: 9001
+  - name: http
+    port: 80
+    protocol: TCP
+    targetPort: 9002
+  - name: https
+    port: 443
+    protocol: TCP
+    targetPort: 9003
+  - name: ldap
+    port: 389
+    protocol: TCP
+    targetPort: 9004
+  - name: ldaps
+    port: 636
+    protocol: TCP
+    targetPort: 9005
+  - name: krb-tcp
+    port: 88
+    protocol: TCP
+    targetPort: 9006
+  - name: krb-udp
+    port: 88
+    protocol: UDP
+    targetPort: 9006
+  - name: kpasswd-tcp
+    port: 464
+    protocol: TCP
+    targetPort: 9007
+  - name: kpasswd-udp
+    port: 464
+    protocol: UDP
+    targetPort: 9007
+  - name: ntp
+    port: 123
+    protocol: UDP
+    targetPort: 9008
+  sessionAffinity: None
+  type: NodePort

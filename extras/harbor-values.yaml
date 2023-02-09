@@ -1,0 +1,22 @@
+expose:
+  tls:
+    certSource: secret
+    secret:
+      secretName: "harbor-tls"
+      notarySecretName: "notary-tls"
+  ingress:
+    hosts:
+      core: harbor.epsindo.ai
+      notary: notary.epsindo.ai
+    annotations:
+      ingress.kubernetes.io/ssl-redirect: "true"
+      ingress.kubernetes.io/proxy-body-size: "0"
+      nginx.ingress.kubernetes.io/ssl-redirect: "true"
+      nginx.ingress.kubernetes.io/proxy-body-size: "0"
+      cert-manager.io/cluster-issuer: selfsigned
+      kubernetes.io/ingress.class: nginx
+      nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+externalURL: https://harbor.epsindo.ai
+harborAdminPassword: "epsindo123"
+caSecretName: "harbor-tls"
+secretKey: "NrwbYXDcZDxi2bLm"
